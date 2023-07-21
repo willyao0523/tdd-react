@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Appointment } from "../src/appointment";
 import { act } from "react-dom/test-utils";
 
-describe("appointment", () => {
+describe("Appointment", () => {
   let container;
 
   beforeEach(() => {

@@ -85,7 +85,7 @@ describe("AppointmentsDayView", () => {
     render(<AppointmentsDayView appointments={twoAppointments} />);
     const secondButton = () => elements("button")[1];
     click(secondButton());
-    expect(secondButton().className).toContain("toggled");
+    expect(secondButton()).toHaveClass("toggled");
     expect(document.body).toContainText("Jordan");
   });
 });

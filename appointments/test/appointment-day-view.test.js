@@ -1,7 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+
+import { initializeReactContainer, render, click } from "./reactTestExtensions";
 import { AppointmentsDayView } from "../src/appointments-day-view";
-import { act } from "react-dom/test-utils";
 
 describe("AppointmentsDayView", () => {
   const today = new Date();
@@ -20,15 +20,9 @@ describe("AppointmentsDayView", () => {
     },
   ];
 
-  let container;
-
   beforeEach(() => {
-    container = document.createElement("div");
-    document.body.replaceChildren(container);
+    initializeReactContainer();
   });
-
-  const render = (component) =>
-    act(() => ReactDOM.createRoot(container).render(component));
 
   it("renders a div with the right id", () => {
     render(<AppointmentsDayView appointments={[]} />);
@@ -54,13 +48,13 @@ describe("AppointmentsDayView", () => {
 
     const listChildren = document.querySelectorAll("li");
 
-    expect(listChildren[0].textContent).toEqual("12:00");
-    expect(listChildren[1].textContent).toEqual("13:00");
+    expect(listChildren[0]).toContainText("12:00");
+    expect(listChildren[1]).toContainText("13:00");
   });
 
   it("initially shows a message saying there are no appointments today", () => {
     render(<AppointmentsDayView appointments={[]} />);
-    expect(document.body.textContent).toContain(
+    expect(document.body).toContainText(
       "There are no appointments scheduled for today."
     );
   });
@@ -68,6 +62,7 @@ describe("AppointmentsDayView", () => {
   it("selects the first appointment by default", () => {
     render(<AppointmentsDayView appointments={twoAppointments} />);
     expect(document.body.textContent).toContain("Ashley");
+    expect(document.body).toContainText("Ashley");
   });
 
   it("has a button element in each li", () => {
@@ -80,7 +75,7 @@ describe("AppointmentsDayView", () => {
   it("renders another appointment when selected", () => {
     render(<AppointmentsDayView appointments={twoAppointments} />);
     const button = document.querySelectorAll("button")[1];
-    act(() => button.click());
-    expect(document.body.textContent).toContain("Jordan");
+    click(button);
+    expect(document.body).toContainText("Jordan");
   });
 });
